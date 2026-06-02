@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Press Releases — Shilpi Kakani</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; }
+
+  .news-wrap { background: #e8e4dc; padding: 2rem; }
+
+  /* TABS */
+  .page-tabs { display: flex; gap: 0; margin-bottom: 0; }
+  .page-tab { padding: 0.6rem 1.5rem; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; transition: background 0.2s, color 0.2s; background: #c8c0b0; color: #888; }
+  .page-tab.active { background: #faf8f3; color: #0c0c0c; }
+  .page-tab:hover:not(.active) { background: #d8d0c0; color: #555; }
+
+  /* PAGE */
+  .page { display: none; background: #faf8f3; padding: 2.5rem 3rem; max-width: 740px; margin: 0 auto; }
+  .page.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* MASTHEAD */
+  .masthead { text-align: center; border-top: 3px solid #0c0c0c; border-bottom: 0.5px solid #0c0c0c; padding: 0.6rem 0; margin-bottom: 2rem; }
+  .masthead-label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #888; margin-bottom: 0.2rem; }
+  .masthead-name { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; letter-spacing: -0.01em; color: #0c0c0c; line-height: 1; }
+  .masthead-bar { display: flex; justify-content: space-between; border-top: 0.5px solid #0c0c0c; border-bottom: 3px solid #0c0c0c; padding: 0.25rem 0; margin-top: 0.4rem; font-size: 9px; color: #666; letter-spacing: 0.06em; }
+
+  /* PR STRUCTURE */
+  .crisis-tag { display: inline-block; background: #0c0c0c; color: #faf8f3; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; padding: 2px 7px; margin-bottom: 0.6rem; }
+
+  .pr-immediate { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #1a3a2a; font-weight: 500; margin-bottom: 0.6rem; padding-bottom: 0.5rem; border-bottom: 1px solid #1a3a2a; display: flex; align-items: center; gap: 8px; }
+  .pr-immediate::before { content: ''; width: 16px; height: 0.5px; background: #1a3a2a; }
+
+  .pr-headline { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; line-height: 1.2; color: #0c0c0c; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+  .pr-dek { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; color: #666; line-height: 1.5; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid #ddd; }
+  .pr-dateline { font-size: 10px; letter-spacing: 0.06em; color: #555; margin-bottom: 1rem; font-weight: 500; }
+
+  /* SINGLE COLUMN BODY */
+  .pr-body { font-size: 14px; color: #333; line-height: 1.9; font-weight: 300; }
+  .pr-body p { margin-bottom: 0.85rem; }
+
+  /* DROP CAP on first paragraph */
+  .pr-body p:first-child::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin: 0.05em 0.08em 0 0;
+    color: #1a3a2a;
+  }
+
+  .pr-quote { border-left: 2px solid #1a3a2a; padding: 0.6rem 1rem; margin: 1rem 0; font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; color: #333; line-height: 1.6; }
+
+  /* BOILERPLATE */
+  .pr-boilerplate { margin-top: 1.5rem; padding-top: 0.75rem; border-top: 0.5px solid #ccc; }
+  .pr-boilerplate-title { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #888; margin-bottom: 0.3rem; font-weight: 500; }
+  .pr-boilerplate-text { font-size: 12px; color: #666; line-height: 1.6; }
+
+  /* CONTACT */
+  .pr-contact { margin-top: 0.75rem; padding-top: 0.6rem; border-top: 0.5px solid #ddd; display: flex; justify-content: space-between; }
+  .pr-contact-item { font-size: 10px; color: #555; line-height: 1.6; }
+  .pr-contact-label { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #aaa; display: block; margin-bottom: 1px; }
+
+  /* PAGE NAV */
+  .page-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid #ddd; }
+  .page-nav-btn { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a3a2a; background: none; border: 0.5px solid #1a3a2a; padding: 6px 16px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s, color 0.2s; }
+  .page-nav-btn:hover { background: #1a3a2a; color: #fff; }
+  .page-count { font-size: 10px; color: #aaa; letter-spacing: 0.1em; }
+
+  /* DISCLAIMER */
+  .disclaimer { margin-top: 1.5rem; padding: 0.75rem 1rem; border-top: 3px double #ccc; font-size: 10px; color: #888; font-style: italic; text-align: center; line-height: 1.7; background: #f0ede8; }
+
+  @media (max-width: 600px) {
+    .page { padding: 1.5rem; }
+    .pr-headline { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+  <!-- SHARED NAV -->
+  <style>
+    .sk-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.4rem 3rem; display: flex; align-items: center; justify-content: space-between; transition: background .3s; font-family: 'DM Sans', sans-serif; }
+    .sk-nav.scrolled { background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: .5px solid #e5e2dc; }
+    .sk-nav-logo { font-family: 'Fraunces', serif; font-weight: 300; font-size: 18px; color: #0c0c0c; text-decoration: none; letter-spacing: .02em; }
+    .sk-nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .sk-nav-links a, .sk-nav-btn { font-size: 12px; color: #777; text-decoration: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 0; display: flex; align-items: center; gap: 5px; }
+    .sk-nav-links a:hover, .sk-nav-btn:hover { color: #0c0c0c; }
+    .sk-nav-item { position: relative; }
+    .sk-nav-btn svg { transition: transform .2s; }
+    .sk-nav-item.open .sk-nav-btn svg { transform: rotate(180deg); }
+    .sk-dropdown { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(-6px); background: #fff; border: .5px solid #e5e2dc; box-shadow: 0 8px 32px rgba(0,0,0,.1); min-width: 210px; padding: .4rem 0; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+    .sk-nav-item.open .sk-dropdown { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+    .sk-dropdown a { display: block; padding: .65rem 1.4rem; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #777; text-decoration: none; transition: color .15s, background .15s; white-space: nowrap; }
+    .sk-dropdown a:hover { color: #0c0c0c; background: #f5f3ef; }
+    .sk-nav-spacer { height: 70px; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <nav class="sk-nav" id="skNav">
+    <a href="index.html" class="sk-nav-logo">Shilpi Kakani</a>
+    <ul class="sk-nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li class="sk-nav-item">
+        <button class="sk-nav-btn">Writing <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></button>
+        <div class="sk-dropdown">
+          <a href="writing_dropdown_1_opinion_pieces.html">Opinion Pieces</a>
+          <a href="writing_dropdown_2_press_release.html">Press Release</a>
+          <a href="writing_dropdown_3_corp_comm.html">Corporate Communications</a>
+        </div>
+      </li>
+      <li class="sk-nav-item">
+        <button class="sk-nav-btn">Work <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></button>
+        <div class="sk-dropdown">
+          <a href="work_dropdown_1_case_study.html">Case Study</a>
+        </div>
+      </li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="sk-nav-spacer"></div>
+  <script>
+    window.addEventListener("scroll", () => { document.getElementById("skNav").classList.toggle("scrolled", scrollY > 80); });
+    document.querySelectorAll(".sk-nav-item").forEach(function(item) {
+      var btn = item.querySelector(".sk-nav-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function(e) { e.stopPropagation(); var isOpen = item.classList.contains("open"); document.querySelectorAll(".sk-nav-item.open").forEach(function(i){ i.classList.remove("open"); }); if (!isOpen) item.classList.add("open"); });
+    });
+    document.addEventListener("click", function() { document.querySelectorAll(".sk-nav-item.open").forEach(function(i){ i.classList.remove("open"); }); });
+  </script>
+
+
+<div class="news-wrap">
+  <div class="page-tabs">
+    <button class="page-tab active" onclick="showPage(1)">Page 1 — Crisis Statement</button>
+    <button class="page-tab" onclick="showPage(2)">Page 2 — Product Launch</button>
+  </div>
+
+  <!-- PAGE 1 — CRISIS (PR-1) -->
+  <div class="page active" id="page1">
+    <div class="masthead">
+      <p class="masthead-label">Portfolio writing sample · Press release</p>
+      <p class="masthead-name">The Rooted Gazette</p>
+      <div class="masthead-bar">
+        <span>Mumbai, India · May 2026</span>
+        <span>Writing Sample · Shilpi Kakani</span>
+        <span>Page 1 of 2</span>
+      </div>
+    </div>
+
+    <span class="crisis-tag">Statement</span>
+    <p class="pr-immediate">For Immediate Release</p>
+    <h2 class="pr-headline">Rooted Responds to Sourcing Questions: Our Position and Our Next Steps</h2>
+    <p class="pr-dek">A statement from the founding team</p>
+    <p class="pr-dateline">Mumbai, India. May 2026.</p>
+
+    <div class="pr-body">
+      <p>We have seen the reports. We want to address them directly.</p>
+      <p>A story published this week raised questions about whether the ingredients in Rooted Rest are sourced from verified Indian farms as we have stated. We take that question seriously. Our customers trusted us with a claim and they deserve to know where we stand.</p>
+      <p>Here is what we know.</p>
+      <p>Every ingredient in Rooted Rest is procured through two primary farm partners based in Uttarakhand and Kerala, both of whom we have worked with since before the brand launched. We have visited both facilities. Supplier documentation exists for every batch we have produced. We are compiling it into a single reviewable format and will have it ready within 48 hours, available to any journalist, regulatory body, or customer who requests it.</p>
+      <p>We also know that our internal verification process has gaps. We relied on supplier declarations without commissioning independent third-party audits at the farm level. That was a process decision we made early in the business and it is one we are now correcting.</p>
+      <p>Effective immediately, we have engaged an independent agricultural auditing firm to conduct a full review of our supply chain. Results will be published on our website within 60 days. Until that review is complete, we will not make any new sourcing claims beyond what we can currently verify in writing.</p>
+      <div class="pr-quote">"We built Rooted on the idea that trust is earned through transparency, not just claimed through marketing," says founder Meera Nair. "If our process did not live up to that standard, we own that. And we will show our work."</div>
+      <p>We are not asking anyone to take our word for it. We are asking for the time to prove it.</p>
+      <p>Updates will be posted at rootedindia.com/sourcing as they become available. Customers with questions can reach us directly at care@rootedindia.com.</p>
+    </div>
+
+    <div class="pr-boilerplate">
+      <p class="pr-boilerplate-title">About Rooted</p>
+      <p class="pr-boilerplate-text">Rooted is a Mumbai-based wellness brand working at the intersection of Ayurvedic tradition and clinical research. Founded in 2025, it exists for the person who is done with shortcuts. rootedindia.com</p>
+    </div>
+    <div class="pr-contact">
+      <div class="pr-contact-item"><span class="pr-contact-label">Media Contact</span>press@rootedindia.com</div>
+      <div class="pr-contact-item" style="text-align:right;"><span class="pr-contact-label">Updates</span>rootedindia.com/sourcing</div>
+    </div>
+
+    <div class="page-nav">
+      <span class="page-count">Page 1 of 2</span>
+      <button class="page-nav-btn" onclick="showPage(2)">Next — Product Launch →</button>
+    </div>
+
+    <div class="disclaimer">Portfolio Sample. The names, organisations, and scenarios in this document are fictional and included for demonstration purposes only. This sample does not represent any real entity, transaction, or event.</div>
+  </div>
+
+  <!-- PAGE 2 — PRODUCT LAUNCH (PR-2) -->
+  <div class="page" id="page2">
+    <div class="masthead">
+      <p class="masthead-label">Portfolio writing sample · Press release</p>
+      <p class="masthead-name">The Rooted Gazette</p>
+      <div class="masthead-bar">
+        <span>Mumbai, India · May 2026</span>
+        <span>Writing Sample · Shilpi Kakani</span>
+        <span>Page 2 of 2</span>
+      </div>
+    </div>
+
+    <p class="pr-immediate">For Immediate Release</p>
+    <h2 class="pr-headline">Rooted Launches Its First Product: A Sleep Supplement Built on Centuries of Ayurvedic Science</h2>
+    <p class="pr-dek">For the urban professional who has tried everything and slept through nothing</p>
+    <p class="pr-dateline">Mumbai, India. May 2026.</p>
+
+    <div class="pr-body">
+      <p>Sleep is not the problem. That took Meera Nair three years to figure out.</p>
+      <p>It was the cortisol, the screen at midnight, the nervous system running so hot for so long it had forgotten what it felt like to actually stop. Sleep was just where all of that showed up.</p>
+      <p>Today, Nair launches Rooted Rest, the first product from her Mumbai-based wellness brand Rooted, a sleep and recovery supplement built around three Ayurvedic adaptogens, ashwagandha, brahmi, and shankhapushpi, each chosen for what the research says, not just what tradition suggests.</p>
+      <div class="pr-quote">"I did not want to build another supplement brand," says Nair. "I wanted to build the one I actually needed. Something that respected what our grandmothers already knew, and took it seriously enough to prove it."</div>
+      <p>Rooted Rest is available today at rootedindia.com. Every batch is third-party tested, every ingredient is sourced from verified Indian farms, and the packaging is fully recyclable.</p>
+      <p>There are no retail partnerships in the first year. That was a deliberate choice. Nair wanted the first people who tried Rooted to be the ones who were genuinely looking for it, not the ones who picked it up because it was positioned well on a shelf.</p>
+      <div class="pr-quote">"We are not trying to be the biggest wellness brand in India," she says. "We are trying to be the one that actually works."</div>
+    </div>
+
+    <div class="pr-boilerplate">
+      <p class="pr-boilerplate-title">About Rooted</p>
+      <p class="pr-boilerplate-text">Rooted is a Mumbai-based wellness brand working at the intersection of Ayurvedic tradition and clinical research. Founded in 2025, it exists for the person who is done with shortcuts. rootedindia.com</p>
+    </div>
+    <div class="pr-contact">
+      <div class="pr-contact-item"><span class="pr-contact-label">Media Contact</span>press@rootedindia.com</div>
+      <div class="pr-contact-item" style="text-align:right;"><span class="pr-contact-label">Website</span>rootedindia.com</div>
+    </div>
+
+    <div class="page-nav">
+      <button class="page-nav-btn" onclick="showPage(1)">← Back — Crisis Statement</button>
+      <span class="page-count">Page 2 of 2</span>
+    </div>
+
+    <div class="disclaimer">Portfolio Sample. The names, organisations, and scenarios in this document are fictional and included for demonstration purposes only. This sample does not represent any real entity, transaction, or event.</div>
+  </div>
+</div>
+
+<script>
+  function showPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page' + n).classList.add('active');
+    document.querySelectorAll('.page-tab')[n - 1].classList.add('active');
+  }
+</script>
+</body>
+</html>

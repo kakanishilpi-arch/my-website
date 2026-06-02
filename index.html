@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shilpi Kakani — Words. Strategy. Impact.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #fff; color: #0c0c0c; -webkit-font-smoothing: antialiased; overflow-x: hidden; cursor: none; }
+
+    :root {
+      --black: #0c0c0c;
+      --white: #fff;
+      --off-white: #f5f3ef;
+      --warm-grey: #e5e2dc;
+      --mid-grey: #999;
+      --text-secondary: #777;
+      --accent: #1a3a2a;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cDot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s; }
+    #cRing { width: 36px; height: 36px; border: 1.5px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .4; transition: width .3s, height .3s, opacity .2s; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 1.4rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .3s;
+    }
+    nav.scrolled { background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: .5px solid var(--warm-grey); }
+    .nav-logo { font-family: 'Fraunces', serif; font-weight: 300; font-size: 18px; color: var(--black); text-decoration: none; letter-spacing: .02em; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a, .nav-btn { font-size: 12px; color: var(--text-secondary); text-decoration: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; background: none; border: none; cursor: none; font-family: 'DM Sans', sans-serif; padding: 0; }
+    .nav-links a:hover, .nav-btn:hover { color: var(--black); }
+
+    /* ── DROPDOWN ── */
+    .nav-item { position: relative; }
+    .nav-btn { display: flex; align-items: center; gap: 5px; }
+    .nav-btn svg { transition: transform .2s; }
+    .nav-item.open .nav-btn svg { transform: rotate(180deg); }
+
+    .dropdown {
+      position: absolute; top: calc(100% + 14px); left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: #fff; border: .5px solid var(--warm-grey);
+      box-shadow: 0 8px 32px rgba(0,0,0,.1);
+      min-width: 200px; padding: .4rem 0;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .nav-item.open .dropdown { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+    .dropdown a {
+      display: block; padding: .65rem 1.4rem;
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-secondary); text-decoration: none;
+      transition: color .15s, background .15s;
+      white-space: nowrap;
+    }
+    .dropdown a:hover { color: var(--black); background: var(--off-white); }
+
+    /* ── HERO / BRIEF OPENING ── */
+    .brief-opening {
+      min-height: 100vh;
+      background: #f0ede8;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 7rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .brief-opening::before {
+      content: '"';
+      position: absolute;
+      font-family: 'Fraunces', serif;
+      font-size: 420px; color: #e5e2dc;
+      top: -80px; left: -20px; line-height: 1;
+      pointer-events: none; opacity: .6;
+    }
+    .brief-eyebrow {
+      font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .75rem; text-align: center;
+      display: flex; align-items: center; gap: 12px; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .brief-eyebrow::before, .brief-eyebrow::after { content: ''; width: 24px; height: .5px; background: var(--accent); }
+    .brief-headline {
+      font-family: 'Fraunces', serif; font-size: clamp(26px,3.5vw,44px);
+      font-weight: 300; color: var(--black); text-align: center;
+      margin-bottom: 4rem; max-width: 540px; line-height: 1.2;
+      letter-spacing: -.01em; position: relative; z-index: 1;
+    }
+    .brief-headline em { font-style: italic; color: var(--accent); }
+
+    /* ── PAPER (brief card) ── */
+    .paper {
+      background: #fff; border: .5px solid #ddd;
+      width: 100%; max-width: 560px;
+      padding: 3rem; box-shadow: 0 12px 60px rgba(0,0,0,.08);
+      position: relative; z-index: 1;
+    }
+    .doc-meta { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+    .doc-lbl { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #bbb; font-family: 'DM Sans', sans-serif; }
+    .doc-div { height: .5px; background: #f0f0f0; margin-bottom: 1.8rem; }
+    .brief-content { font-size: 16px; line-height: 2.1; color: #333; min-height: 80px; font-family: 'DM Sans', sans-serif; }
+    .w { display: inline; border-radius: 2px; transition: background .2s, color .3s; }
+    .w.selected { background: #b3d4f7; }
+    .w.struck { color: #c8c8c8; text-decoration: line-through; text-decoration-color: #e05a3a; text-decoration-thickness: 1.5px; }
+    .rep { display: none; color: var(--accent); font-weight: 500; font-style: italic; }
+    .rep.visible { display: inline; }
+    .bcur { display: inline-block; width: 1.5px; height: 15px; background: #999; vertical-align: middle; margin-left: 1px; animation: blink .75s infinite; }
+    .bcur.hidden { display: none; }
+    .b-ending { margin-top: 2rem; text-align: center; opacity: 0; transform: translateY(8px); transition: opacity .7s, transform .7s; padding-top: 1.2rem; border-top: .5px solid #f0f0f0; }
+    .b-ending.visible { opacity: 1; transform: translateY(0); }
+    .e-name { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 400; color: #111; margin-bottom: 6px; }
+    .e-tag { font-size: 10px; letter-spacing: .2em; color: #aaa; text-transform: uppercase; font-family: 'DM Sans', sans-serif; }
+    .tw { display: inline; opacity: 0; transition: opacity .45s; }
+    .tw.visible { opacity: 1; }
+    .replay-btn {
+      display: block; margin: 1rem auto 0; padding: 8px 28px;
+      background: transparent; border: .5px solid #ccc;
+      font-size: 10px; color: #aaa; cursor: none;
+      font-family: 'DM Sans', sans-serif; letter-spacing: .12em;
+      text-transform: uppercase; transition: color .2s, border-color .2s;
+      position: relative; z-index: 1;
+    }
+    .replay-btn:hover { color: #555; border-color: #999; }
+
+    /* ── SCROLL HINT ── */
+    .scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; animation: fadeUp 1s ease forwards 4s; opacity: 0; }
+    .scroll-hint-line { width: .5px; height: 40px; background: var(--accent); animation: scrollPulse 2s ease infinite; }
+    .scroll-hint-text { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-family: 'DM Sans', sans-serif; }
+    @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.3)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:.5;transform:translateX(-50%) translateY(0)} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── REVEAL SYSTEM ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── ABOUT / WHO SECTION ── */
+    .who-section { background: #ffffff; padding: 120px 0 160px; }
+    .who-inner { max-width: 1080px; margin: 0 auto; padding: 0 72px; }
+    .who-eyebrow { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: #999; margin-bottom: 52px; opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .who-eyebrow.visible { opacity: 1; transform: translateY(0); }
+    .who-headline { margin-bottom: 96px; overflow: visible; }
+    .who-headline-line { display: block; overflow: hidden; padding-bottom: 8px; }
+    .who-headline-line span { display: block; font-family: 'Fraunces', serif; font-size: clamp(60px,7.5vw,112px); font-weight: 700; line-height: 1.0; letter-spacing: -2px; color: #0A0A0A; transform: translateY(108%); transition: transform .95s cubic-bezier(0.16,1,0.3,1); }
+    .who-headline-line span em { font-style: italic; color: #888; }
+    .who-headline-line.visible span { transform: translateY(0); }
+    .who-is-sm { font-size: .75em; vertical-align: .1em; letter-spacing: -1px; }
+    .who-rule { width: 0; height: 1px; background: #0A0A0A; margin-bottom: 72px; transition: width .8s cubic-bezier(0.16,1,0.3,1); }
+    .who-rule.visible { width: 100%; }
+    .who-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 96px; }
+    .who-lead { font-family: 'Fraunces', serif; font-size: 21px; font-style: italic; line-height: 1.65; color: #0A0A0A; margin-bottom: 32px; opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+    .who-lead.visible { opacity: 1; transform: translateY(0); }
+    .who-para { font-family: 'EB Garamond', Georgia, serif; font-size: 18px; line-height: 1.8; color: #555; }
+    .who-para + .who-para { margin-top: 18px; }
+    .who-col-inner { opacity: 0; transform: translateY(24px); transition: opacity .8s ease .1s, transform .8s ease .1s; }
+    .who-col-inner.visible { opacity: 1; transform: translateY(0); }
+    .who-q-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: #bbb; margin-bottom: 28px; opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .who-q-label.visible { opacity: 1; transform: translateY(0); }
+    .who-q-item { display: grid; grid-template-columns: 36px 1fr; padding: 22px 0; border-bottom: 1px solid #ebebeb; opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .who-q-item:first-of-type { border-top: 1px solid #ebebeb; }
+    .who-q-item.visible { opacity: 1; transform: translateY(0); }
+    .who-q-num { font-family: 'Space Mono', monospace; font-size: 9px; color: #bbb; letter-spacing: 1px; padding-top: 3px; }
+    .who-q-text { font-family: 'EB Garamond', Georgia, serif; font-size: 18px; line-height: 1.5; color: #0A0A0A; }
+    .who-closing { padding-top: 64px; border-top: 1px solid #0A0A0A; opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+    .who-closing.visible { opacity: 1; transform: translateY(0); }
+    .who-closing-text { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #0A0A0A; }
+
+    /* ── STRATEGY CARDS ── */
+    .strategy-section { background: #f9f8f5; padding: 9rem 3rem; }
+    .strategy-inner { max-width: 780px; margin: 0 auto; }
+    .strategy-header { margin-bottom: 3rem; }
+    .strategy-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--mid-grey); margin-bottom: .5rem; font-family: 'DM Sans', sans-serif; }
+    .strategy-title { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 400; color: #111; }
+    .s-cards { display: flex; flex-direction: column; gap: 1.25rem; }
+    .s-card { background: #fff; border: .5px solid #e0ddd8; border-radius: 12px; padding: 1.75rem 2rem; display: flex; align-items: flex-start; gap: 1.25rem; }
+    .s-num { min-width: 40px; height: 40px; border-radius: 50%; background: #f9f8f5; border: .5px solid #e0ddd8; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: var(--mid-grey); flex-shrink: 0; font-family: 'DM Sans', sans-serif; }
+    .s-body { flex: 1; }
+    .s-title { font-size: 17px; font-weight: 500; color: #111; margin-bottom: 5px; font-family: 'Fraunces', serif; }
+    .s-tag { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #bbb; margin-bottom: .9rem; font-family: 'DM Sans', sans-serif; }
+    .s-text { font-size: 14px; color: #444; line-height: 1.75; font-family: 'DM Sans', sans-serif; font-weight: 300; }
+
+    /* ── CONTACT ── */
+    .contact-section { background: #f0ede8; padding: 8rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .contact-paper { background: #fff; border: .5px solid #e0ddd8; width: 100%; max-width: 480px; padding: 2.8rem 3rem; box-shadow: 0 2px 12px rgba(0,0,0,.07); text-align: center; }
+    .c-meta { display: flex; justify-content: space-between; margin-bottom: 1.6rem; }
+    .c-lbl { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #bbb; font-family: 'DM Sans', sans-serif; }
+    .c-divider { height: .5px; background: #efefef; margin-bottom: 2rem; }
+    .c-headline { font-size: 20px; font-weight: 500; color: #111; line-height: 1.5; margin-bottom: 2rem; font-family: 'Fraunces', serif; }
+    .c-links { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem; }
+    .c-link { display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #555; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: .03em; padding: 10px; border: .5px solid #e8e5e0; transition: color .2s, border-color .2s, background .3s; position: relative; overflow: hidden; }
+    .c-link::before { content: ''; position: absolute; inset: 0; background: var(--accent); transform: translateY(100%); transition: transform .3s ease; }
+    .c-link:hover { color: #fff; border-color: var(--accent); }
+    .c-link:hover::before { transform: translateY(0); }
+    .c-link svg, .c-link span { position: relative; z-index: 1; }
+    .c-bottom-div { height: .5px; background: #efefef; margin-bottom: 1.5rem; }
+    .c-name { font-size: 22px; font-weight: 500; color: #111; font-family: 'Fraunces', serif; margin-bottom: 5px; }
+    .c-tagline { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: #bbb; font-family: 'DM Sans', sans-serif; }
+
+    /* ── FOOTER ── */
+    footer { padding: 1.5rem 3rem; border-top: .5px solid var(--warm-grey); display: flex; justify-content: space-between; }
+    .f-text { font-size: 11px; color: #bbb; letter-spacing: .06em; font-family: 'DM Sans', sans-serif; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a, .nav-btn { font-size: 11px; }
+      .who-inner { padding: 0 28px; }
+      .who-body-grid { grid-template-columns: 1fr; gap: 48px; }
+      .who-section { padding: 80px 0 100px; }
+      .strategy-section { padding: 5rem 1.5rem; }
+      .contact-section { padding: 5rem 1.5rem; }
+      #cDot, #cRing { display: none; }
+      body { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cDot"></div>
+  <div id="cRing"></div>
+
+  <!-- ── NAV ── -->
+  <nav id="mainNav">
+    <a href="index.html" class="nav-logo">Shilpi Kakani</a>
+    <ul class="nav-links">
+
+      <li class="nav-item" id="navAbout">
+        <a href="#about" class="nav-links-a">About</a>
+      </li>
+
+      <!-- WRITING dropdown -->
+      <li class="nav-item" id="navWriting">
+        <button class="nav-btn" aria-haspopup="true" aria-expanded="false">
+          Writing
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="writing_dropdown_1_opinion_pieces.html">Opinion Pieces</a>
+          <a href="writing_dropdown_2_press_release.html">Press Release</a>
+          <a href="writing_dropdown_3_corp_comm.html">Corporate Communications</a>
+        </div>
+      </li>
+
+      <!-- WORK dropdown -->
+      <li class="nav-item" id="navWork">
+        <button class="nav-btn" aria-haspopup="true" aria-expanded="false">
+          Work
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="work_dropdown_1_case_study.html">Case Study</a>
+        </div>
+      </li>
+
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO / BRIEF OPENING ── -->
+  <section class="brief-opening" id="home">
+    <p class="brief-eyebrow">Words. Strategy. Impact.</p>
+    <h2 class="brief-headline">Every brief has a <em>better version</em> of itself.</h2>
+
+    <div style="width:100%;max-width:560px;position:relative;z-index:1;">
+      <div class="paper">
+        <div class="doc-meta">
+          <span class="doc-lbl">Client Brief — Draft 1</span>
+          <span class="doc-lbl">May 2026</span>
+        </div>
+        <div class="doc-div"></div>
+        <div class="brief-content" id="briefContent"></div>
+        <div class="b-ending" id="briefEnding">
+          <div class="e-name">Shilpi Kakani</div>
+          <div class="e-tag">
+            <span class="tw" id="tw1">Words.&nbsp;&nbsp;</span>
+            <span class="tw" id="tw2">Strategy.&nbsp;&nbsp;</span>
+            <span class="tw" id="tw3">Impact.</span>
+          </div>
+        </div>
+      </div>
+      <button class="replay-btn" id="replayBtn">Replay</button>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-hint-line"></div>
+      <span class="scroll-hint-text">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section class="who-section" id="about">
+    <div class="who-inner">
+      <p class="who-eyebrow reveal">About</p>
+      <div class="who-headline">
+        <div class="who-headline-line reveal-line">
+          <span><span class="who-is-sm">Who is</span> <em>Shilpi</em></span>
+        </div>
+      </div>
+      <div class="who-rule reveal-rule"></div>
+      <div class="who-body-grid">
+        <div>
+          <p class="who-lead reveal">Some people make communication complicated. Shilpi does the opposite.</p>
+          <div class="who-col-inner reveal">
+            <p class="who-para">She has spent her career in rooms where the stakes were real and the margin for vague was zero. Government institutions, global policy organisations, brands trying to figure out what they actually stand for. In every one of those rooms she has done the same thing: cut to what matters.</p>
+            <p class="who-para">She is not the person who fills a brief with everything the client asked for. She is the person who reads the brief, finds the real question underneath it, and answers that instead.</p>
+          </div>
+        </div>
+        <div>
+          <p class="who-q-label reveal">Before any brief, any strategy, any piece of writing</p>
+          <div class="who-q-item reveal" style="transition-delay:.05s;">
+            <span class="who-q-num">01</span>
+            <span class="who-q-text">Why are we communicating this?</span>
+          </div>
+          <div class="who-q-item reveal" style="transition-delay:.12s;">
+            <span class="who-q-num">02</span>
+            <span class="who-q-text">What does the audience actually need to hear?</span>
+          </div>
+          <div class="who-q-item reveal" style="transition-delay:.19s;">
+            <span class="who-q-num">03</span>
+            <span class="who-q-text">Who is in the room, and what are they carrying when they arrive?</span>
+          </div>
+          <div class="who-q-item reveal" style="transition-delay:.26s;">
+            <span class="who-q-num">04</span>
+            <span class="who-q-text">When does this need to land, and what happens if it does not?</span>
+          </div>
+        </div>
+      </div>
+      <div class="who-closing reveal">
+        <p class="who-closing-text">That is the work. Full stop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STRATEGY CARDS ── -->
+  <section class="strategy-section" id="strategies">
+    <div class="strategy-inner">
+      <div class="strategy-header reveal">
+        <p class="strategy-label">How I think</p>
+        <h2 class="strategy-title">Strategies I work by</h2>
+      </div>
+      <div class="s-cards">
+        <div class="s-card reveal">
+          <div class="s-num">01</div>
+          <div class="s-body">
+            <p class="s-title">The room changes everything</p>
+            <p class="s-tag">Audience strategy</p>
+            <p class="s-text">I have written the same message four different ways for four different people in the same meeting. Not because the facts changed. Because the room did. Before I write anything, I need to know who is reading it, what they already believe, and what they need to feel by the time they finish. That is where strategy actually starts.</p>
+          </div>
+        </div>
+        <div class="s-card reveal" style="transition-delay:.1s;">
+          <div class="s-num">02</div>
+          <div class="s-body">
+            <p class="s-title">Precision is not the enemy of warmth</p>
+            <p class="s-tag">Craft principle</p>
+            <p class="s-text">People assume that careful writing is cold writing. I disagree. Knowing exactly what your words need to do does not remove the humanity from them. If anything, it gives them a better chance of reaching someone. The most precise communication I have been part of has also been the most considered. That is not a coincidence.</p>
+          </div>
+        </div>
+        <div class="s-card reveal" style="transition-delay:.2s;">
+          <div class="s-num">03</div>
+          <div class="s-body">
+            <p class="s-title">The brief is never really the brief</p>
+            <p class="s-tag">Client work</p>
+            <p class="s-text">What a client asks for and what they actually need are rarely the same thing. I have learned to sit with a brief long enough to find the real question underneath it. That is usually where the work worth doing lives. Answering the surface brief is easy. Answering the right one takes a different kind of listening.</p>
+          </div>
+        </div>
+        <div class="s-card reveal" style="transition-delay:.1s;">
+          <div class="s-num">04</div>
+          <div class="s-body">
+            <p class="s-title">Silence is also a message</p>
+            <p class="s-tag">Diplomatic principle</p>
+            <p class="s-text">Working in diplomatic communications taught me that what you leave out is as deliberate as what you put in. Every gap, every pause, every word that does not appear is a choice. The best communicators I have worked with understood this. They were as careful about what they did not say as what they did.</p>
+          </div>
+        </div>
+        <div class="s-card reveal" style="transition-delay:.2s;">
+          <div class="s-num">05</div>
+          <div class="s-body">
+            <p class="s-title">Consistency is trust</p>
+            <p class="s-tag">Brand principle</p>
+            <p class="s-text">A brand that sounds different on every channel is a brand nobody fully believes. Not because each piece is bad on its own, but because inconsistency signals that nobody is holding the thread. When I work on a brand voice, I am thinking about every room it will walk into. The homepage, the inbox, the difficult conversation. It has to sound like the same person in all of them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section class="contact-section" id="contact">
+    <div class="contact-paper reveal">
+      <div class="c-meta">
+        <span class="c-lbl">Get in touch</span>
+        <span class="c-lbl">Pune, India</span>
+      </div>
+      <div class="c-divider"></div>
+      <p class="c-headline">If you have a problem worth solving, let's talk.</p>
+      <div class="c-links">
+        <a class="c-link" href="mailto:kakanishilpi@gmail.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          <span>kakanishilpi@gmail.com</span>
+        </a>
+        <a class="c-link" href="https://www.linkedin.com/in/shilpi-kakani" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>
+          <span>linkedin.com/in/shilpi-kakani</span>
+        </a>
+      </div>
+      <div class="c-bottom-div"></div>
+      <p class="c-name">Shilpi Kakani</p>
+      <p class="c-tagline">Words.&nbsp;&nbsp;Strategy.&nbsp;&nbsp;Impact.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="f-text">Shilpi Kakani</span>
+    <span class="f-text">© 2026 shilpikakani.com</span>
+  </footer>
+
+  <script>
+    // ── CUSTOM CURSOR ──
+    const dot = document.getElementById('cDot');
+    const ring = document.getElementById('cRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    (function animRing() {
+      rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.style.width='14px'; dot.style.height='14px'; ring.style.width='54px'; ring.style.height='54px'; ring.style.opacity='.7'; });
+      el.addEventListener('mouseleave', () => { dot.style.width='8px'; dot.style.height='8px'; ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='.4'; });
+    });
+
+    // ── NAV SCROLL ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 80);
+    });
+
+    // ── DROPDOWN TOGGLE ──
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const btn = item.querySelector('.nav-btn');
+      if (!btn) return;
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.nav-item.open').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item.open').forEach(i => i.classList.remove('open'));
+    });
+
+    // ── SCROLL REVEAL ──
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    const lineObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.reveal-line').forEach(el => lineObs.observe(el));
+
+    const ruleObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.reveal-rule').forEach(el => ruleObs.observe(el));
+
+    // ── BRIEF ANIMATION ──
+    const segs = [
+      { text: "We need someone to " },
+      { text: "produce content", id: "e1", rep: "tell stories that sell" },
+      { text: " for our brand. The copy should be " },
+      { text: "good", id: "e2", rep: "unforgettable" },
+      { text: " and " },
+      { text: "on-brand", id: "e3", rep: "impossible to ignore" },
+      { text: ". We want " },
+      { text: "engagement", id: "e4", rep: "real impact" },
+      { text: " — not just " },
+      { text: "clicks", id: "e5", rep: "noise" },
+      { text: "." }
+    ];
+
+    function buildBrief() {
+      return segs.map(s => s.id
+        ? `<span class="w" id="${s.id}">${s.text}</span><span class="rep" id="r_${s.id}">${s.rep}</span>`
+        : `<span>${s.text}</span>`
+      ).join('') + `<span class="bcur" id="mc"></span>`;
+    }
+
+    function typeIt(cb) {
+      const plain = segs.map(s => s.text).join('');
+      const el = document.getElementById('briefContent');
+      el.innerHTML = '<span id="typed"></span><span class="bcur"></span>';
+      const typed = document.getElementById('typed');
+      let i = 0;
+      (function n() {
+        if (i < plain.length) { typed.textContent += plain[i++]; setTimeout(n, 28 + Math.random() * 18); }
+        else setTimeout(cb, 400);
+      })();
+    }
+
+    function editWord(id, cb) {
+      const el = document.getElementById(id), rep = document.getElementById('r_' + id);
+      el.classList.add('selected');
+      setTimeout(() => {
+        el.classList.remove('selected'); el.classList.add('struck');
+        setTimeout(() => { rep.classList.add('visible'); setTimeout(cb, 500); }, 300);
+      }, 460);
+    }
+
+    function resetBrief() {
+      document.getElementById('briefContent').innerHTML = '';
+      document.getElementById('briefEnding').classList.remove('visible');
+      ['tw1','tw2','tw3'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('visible'); });
+    }
+
+    function runBrief() {
+      resetBrief();
+      typeIt(() => {
+        document.getElementById('briefContent').innerHTML = buildBrief();
+        const ids = ['e1','e2','e3','e4','e5'];
+        let idx = 0;
+        (function ne() {
+          if (idx < ids.length) { setTimeout(() => editWord(ids[idx++], ne), idx === 1 ? 500 : 300); }
+          else {
+            const mc = document.getElementById('mc');
+            if (mc) mc.classList.add('hidden');
+            setTimeout(() => {
+              document.getElementById('briefEnding').classList.add('visible');
+              setTimeout(() => document.getElementById('tw1').classList.add('visible'), 500);
+              setTimeout(() => document.getElementById('tw2').classList.add('visible'), 940);
+              setTimeout(() => document.getElementById('tw3').classList.add('visible'), 1380);
+            }, 600);
+          }
+        })();
+      });
+    }
+
+    document.getElementById('replayBtn').addEventListener('click', runBrief);
+    setTimeout(runBrief, 800);
+  </script>
+</body>
+</html>

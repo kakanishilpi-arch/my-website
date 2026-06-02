@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opinion — Selected Pieces</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#edeae2}
+
+/* ── SHELF ── */
+.shelf-page{display:block}
+.scene{background:#ede9e1;border-radius:16px;padding:2.2rem 2.2rem 0;overflow:hidden}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:.3rem}
+.eyebrow::before{content:'';width:28px;height:1px;background:#bbb}
+.scene-title{font-family:'EB Garamond',Georgia,serif;font-size:2.4rem;font-weight:400;color:#1a1a18;margin-bottom:2rem}
+.shelf-row{display:flex;align-items:flex-end;min-height:420px;position:relative}
+.book-slot{display:flex;align-items:flex-end;flex-shrink:0;margin-right:5px}
+.book{cursor:pointer;flex-shrink:0;transition:transform .25s ease}
+.book:hover .spine{filter:brightness(1.12)}
+.book.active{transform:translateY(-10px)}
+.spine{display:flex;flex-direction:column;justify-content:space-between;padding:14px 10px 12px;position:relative;overflow:hidden;border-radius:3px 0 0 3px}
+.spine::after{content:'';position:absolute;top:0;left:0;width:8px;height:100%;background:rgba(0,0,0,.18);border-radius:3px 0 0 3px;pointer-events:none}
+.spine-num{font-size:10px;color:rgba(255,255,255,.45);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.12em}
+.spine-title{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;color:rgba(255,255,255,.85);line-height:1.4}
+.spine-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0}
+.panel-slot{width:0;overflow:hidden;transition:width .45s cubic-bezier(.4,0,.2,1);flex-shrink:0;align-self:flex-end}
+.panel-slot.open{width:340px}
+.panel{width:340px;background:#fff;border-radius:4px 4px 0 0;display:flex;flex-direction:column;padding:1.8rem 2rem 1.6rem}
+.panel-label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#bbb;margin-bottom:.7rem;flex-shrink:0}
+.panel-title{font-family:'EB Garamond',Georgia,serif;font-size:1.2rem;font-weight:400;color:#1a1a18;line-height:1.3;margin-bottom:.45rem;flex-shrink:0}
+.panel-sub{font-family:'EB Garamond',Georgia,serif;font-style:italic;color:#aaa;font-size:.82rem;margin-bottom:.9rem;line-height:1.5;flex-shrink:0}
+.panel-rule{border:none;border-top:.5px solid #efefef;margin-bottom:.9rem;flex-shrink:0}
+.panel-body{font-size:.82rem;color:#444;line-height:1.8;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+.panel-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1rem;padding-top:.9rem;border-top:.5px solid #efefef;flex-shrink:0}
+.panel-author{font-size:.82rem;font-weight:500;color:#1a1a18}
+.read-btn{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#1a3d2b;text-decoration:none;display:flex;align-items:center;gap:4px;font-weight:500;background:none;border:none;cursor:pointer;font-family:inherit}
+.read-btn:hover{opacity:.65}
+.floor{height:14px;background:#c4b89a;border-radius:0 0 14px 14px;margin:0 -2.2rem}
+.hint{text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#bbb;padding:.6rem 0 .35rem;transition:opacity .3s}
+
+/* ── ARTICLE PAGE ── */
+.article-page{display:none;min-height:100vh;background:#faf8f3}
+.art-nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;border-bottom:.5px solid #e0ddd6;background:#faf8f3;position:sticky;top:0;z-index:10}
+.art-back{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#888;text-decoration:none;cursor:pointer;background:none;border:none;font-family:inherit;display:flex;align-items:center;gap:6px}
+.art-back:hover{color:#1a3d2b}
+.art-back::before{content:'\2190';font-size:14px}
+.art-logo{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:2px;color:#0a0a0a}
+.art-logo span{color:#E8000D}
+
+.art-body-wrap{max-width:640px;margin:0 auto;padding:4rem 2rem 6rem}
+.art-eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#bbb;margin-bottom:1.2rem}
+.art-title{font-family:'EB Garamond',Georgia,serif;font-size:2.4rem;font-weight:400;color:#1a1a18;line-height:1.15;margin-bottom:.8rem}
+.art-sub{font-family:'EB Garamond',Georgia,serif;font-style:italic;color:#888;font-size:1.05rem;margin-bottom:2rem;line-height:1.5}
+.art-rule{border:none;border-top:.5px solid #e0ddd6;margin-bottom:2rem}
+.art-text p{font-size:1rem;color:#2a2a28;line-height:1.9;margin-bottom:1.1rem;font-family:'EB Garamond',Georgia,serif}
+.art-text p:last-child{margin-bottom:0}
+.art-text strong{font-weight:500}
+.art-sig{margin-top:2.5rem;padding-top:1.5rem;border-top:.5px solid #e0ddd6;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:#888}
+</style>
+</head>
+<body>
+  <!-- SHARED NAV -->
+  <style>
+    .sk-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.4rem 3rem; display: flex; align-items: center; justify-content: space-between; transition: background .3s; font-family: 'DM Sans', sans-serif; }
+    .sk-nav.scrolled { background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: .5px solid #e5e2dc; }
+    .sk-nav-logo { font-family: 'Fraunces', serif; font-weight: 300; font-size: 18px; color: #0c0c0c; text-decoration: none; letter-spacing: .02em; }
+    .sk-nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .sk-nav-links a, .sk-nav-btn { font-size: 12px; color: #777; text-decoration: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 0; display: flex; align-items: center; gap: 5px; }
+    .sk-nav-links a:hover, .sk-nav-btn:hover { color: #0c0c0c; }
+    .sk-nav-item { position: relative; }
+    .sk-nav-btn svg { transition: transform .2s; }
+    .sk-nav-item.open .sk-nav-btn svg { transform: rotate(180deg); }
+    .sk-dropdown { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(-6px); background: #fff; border: .5px solid #e5e2dc; box-shadow: 0 8px 32px rgba(0,0,0,.1); min-width: 210px; padding: .4rem 0; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+    .sk-nav-item.open .sk-dropdown { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+    .sk-dropdown a { display: block; padding: .65rem 1.4rem; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #777; text-decoration: none; transition: color .15s, background .15s; white-space: nowrap; }
+    .sk-dropdown a:hover { color: #0c0c0c; background: #f5f3ef; }
+    .sk-nav-spacer { height: 70px; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <nav class="sk-nav" id="skNav">
+    <a href="index.html" class="sk-nav-logo">Shilpi Kakani</a>
+    <ul class="sk-nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li class="sk-nav-item">
+        <button class="sk-nav-btn">Writing <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></button>
+        <div class="sk-dropdown">
+          <a href="writing_dropdown_1_opinion_pieces.html">Opinion Pieces</a>
+          <a href="writing_dropdown_2_press_release.html">Press Release</a>
+          <a href="writing_dropdown_3_corp_comm.html">Corporate Communications</a>
+        </div>
+      </li>
+      <li class="sk-nav-item">
+        <button class="sk-nav-btn">Work <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></button>
+        <div class="sk-dropdown">
+          <a href="work_dropdown_1_case_study.html">Case Study</a>
+        </div>
+      </li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="sk-nav-spacer"></div>
+  <script>
+    window.addEventListener("scroll", () => { document.getElementById("skNav").classList.toggle("scrolled", scrollY > 80); });
+    document.querySelectorAll(".sk-nav-item").forEach(function(item) {
+      var btn = item.querySelector(".sk-nav-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function(e) { e.stopPropagation(); var isOpen = item.classList.contains("open"); document.querySelectorAll(".sk-nav-item.open").forEach(function(i){ i.classList.remove("open"); }); if (!isOpen) item.classList.add("open"); });
+    });
+    document.addEventListener("click", function() { document.querySelectorAll(".sk-nav-item.open").forEach(function(i){ i.classList.remove("open"); }); });
+  </script>
+
+
+<!-- ══ SHELF PAGE ══ -->
+<div class="shelf-page" id="shelf-page">
+  <div class="scene">
+    <div class="eyebrow">Opinion</div>
+    <div class="scene-title">Selected pieces</div>
+    <div class="shelf-row" id="shelf"></div>
+    <div class="hint" id="hint">Click a book to open it</div>
+    <div class="floor"></div>
+  </div>
+</div>
+
+<!-- ══ ARTICLE PAGE ══ -->
+<div class="article-page" id="article-page">
+  <nav class="art-nav">
+    <button class="art-back" id="art-back">Back to shelf</button>
+    <div class="art-logo">SHILPI KAKANI <span>|</span></div>
+  </nav>
+  <div class="art-body-wrap">
+    <div class="art-eyebrow" id="art-eyebrow"></div>
+    <div class="art-title" id="art-title"></div>
+    <div class="art-sub" id="art-sub"></div>
+    <hr class="art-rule">
+    <div class="art-text" id="art-text"></div>
+    <div class="art-sig">Shilpi Kakani</div>
+  </div>
+</div>
+
+<script>
+var books = [
+  {
+    num:"01", color:"#183524", height:300, width:60,
+    spine:"One Brief. Four Rooms. Four Different Truths.",
+    label:"Opinion 01",
+    title:"One Brief. Four Rooms. Four Different Truths.",
+    sub:"What Diplomacy Taught Me About Brand Communication",
+    preview:"In 2023, I rewrote a stakeholder brief four times in one sitting. Not because the facts changed, but because the room did. Same meeting, same agenda, same outcome we needed.",
+    full:[
+      "In 2023, I rewrote a stakeholder brief four times in one sitting.",
+      "Not because the facts changed, but because the room did. Same meeting, same agenda, same outcome we needed. But the version that went to the consular section read nothing like the one that briefed the cultural team, which could not sound anything like the note that went upward to senior officials.",
+      "Four versions. One objective. Completely different people who needed to arrive at the same place.",
+      "I think about that afternoon a lot when I read brand content now.",
+      "Most brand communication is written for one imaginary person.",
+      "The brief calls them something like “Priya, 28, urban professional, values sustainability, shops on her phone.” Priya has a mood board. Priya has a backstory. Priya does not exist.",
+      "The real person reading your content arrived with opinions you did not account for, a bad experience with your competitor, three browser tabs open, and maybe four seconds of patience.",
+      "Nobody briefed you on that Priya.",
+      "So the content goes out. It looks good. The team is happy. Leadership approves. It wins an internal presentation and occasionally an award.",
+      "It just does not work.",
+      "At the High Commission, we could not write for an imaginary reader because the real ones were too present to ignore.",
+      "Senior officials read everything looking for institutional clarity. Consular teams read the same document looking for operational instruction. External stakeholders read between every line for what was not said.",
+      "Same words. Three completely different readings.",
+      "That is not a government problem. That is Tuesday for every brand with more than one type of customer. Which is every brand.",
+      "The difference is that in institutional communications, you find out immediately when you got it wrong. Someone calls. Something does not move. In brand communications, you can stay comfortable with vague for a very long time. The wrong content quietly does nothing, and nobody traces it back to a brief that never asked the right questions.",
+      "Most brands do not write four versions of a brief. They write one, and hope it lands everywhere.",
+      "What they skip is the harder question: who is actually reading this, what do they already believe, what are they skeptical of, and what does this piece of communication need to do in the real world, not in the deck.",
+      "Research helps. Personas help. But what actually changes the writing is genuine curiosity about the person on the other end. Not their demographic. Their state of mind when they land on your page.",
+      "The best communicators I have worked with, in government and in brand work, share one habit.",
+      "They understand the audience before they write for them. Not a persona document. Just an honest answer to the question: where is this person coming from, and what do they need to feel by the end.",
+      "It sounds small. It changes everything from the headline down.",
+      "Campaigns that perform well in reviews do not always perform well in the world.",
+      "Sometimes the most celebrated work is work the audience never really felt. It just looked like they should have.",
+      "There is a difference. Most clients cannot see it on a results slide.",
+      "<strong>The audience always knows.</strong>"
+    ]
+  },
+  {
+    num:"02", color:"#1d4530", height:355, width:66,
+    spine:"The Most Visited Page Nobody Really Reads",
+    label:"Opinion 02",
+    title:"The Most Visited Page Nobody Really Reads",
+    sub:"A case for writing your About page like a trust document, not a story",
+    preview:"When someone navigates to your About page, the decision to engage has already been made. A visitor who has moved past your homepage is no longer asking whether you are relevant.",
+    full:[
+      "When someone navigates to your About page, the decision to engage has already been made.",
+      "A visitor who has moved past your homepage is no longer asking whether you are relevant. They answered that. They are now doing something more deliberate. They are looking for confirmation that what they sensed on first read is grounded in something real.",
+      "That is not a storytelling brief. That is a trust brief. And the two require very different things.",
+      "Most About pages are built around the wrong question.",
+      "The question they answer is: how do we present ourselves credibly? The question they should answer is: what does this reader need to believe, based on evidence, before they are willing to take the next step?",
+      "The first question produces founding stories, value statements, and team introductions. All reasonable. None of it particularly useful to someone who arrived with a problem they need solved and limited patience for being impressed.",
+      "The second question produces something harder to write. Specificity. Position. An honest account of what the organisation is genuinely good at and, more rarely, what it is not.",
+      "In institutional communications, this is not a stylistic preference. It is the job.",
+      "Every briefing note, every stakeholder communication I worked on had one outcome: the reader must leave with the right understanding, not a favourable impression of the writer.",
+      "That requires subordinating the organisation’s need to appear capable to the reader’s need to receive useful information. Precision over polish. Substance over narrative.",
+      "That is exactly what most About pages are missing. Not better writing. Better intent.",
+      "The About pages that actually work share a few things.",
+      "They are specific in ways that exclude. A page that claims to serve everyone has not thought carefully about who it serves best. Specificity, even when it narrows the apparent audience, builds more confidence than breadth ever does.",
+      "They hold a position. Not a value, which is a quality, but a position, which is a stance. Values are aspirational and safe. Positions create mild friction, and mild friction is evidence of a real point of view.",
+      "They sound like every other page on the site. The most reliable signal of organisational integrity is a brand that speaks the same way whether it is writing a homepage, an About page, or a reply to a difficult client. Consistency is not tonal preference. It is a credibility indicator.",
+      "Senior decision makers read About pages differently.",
+      "They are not reading for inspiration. They are reading for signal. Do these people think carefully? Do they communicate clearly? Do they understand the difference between what they want to say and what their reader needs to hear?",
+      "A page that spends more time on the organisation’s journey than on the reader’s context answers none of those questions. It confirms only that the brand is more interested in being understood than in understanding.",
+      "The revision most About pages need is not a rewrite. It is a different starting point.",
+      "Begin with your reader. Who are they when they arrive? What have they already read? What are they hoping to confirm? What would count, for them, as sufficient evidence that this is the right place for their particular problem?",
+      "Write from there. Be precise about what you do well. Be honest about fit. Say something you actually believe, not something everyone in your industry would also say.",
+      "Then trust the reader to decide.",
+      "<strong>That is what an About page is for. Not to impress. To inform well enough that the right people know they are in the right place.</strong>"
+    ]
+  },
+  {
+    num:"03", color:"#162e24", height:278, width:58,
+    spine:"Nobody Tells You the Outreach Is the Hard Part",
+    label:"Opinion 03",
+    title:"Nobody Tells You the Outreach Is the Hard Part",
+    sub:"What building thought leadership programs actually looks like from the inside",
+    preview:"Finding the right speaker for a high-stakes forum is not a glamorous job. There are a lot of unanswered emails. Introductions that go nowhere.",
+    full:[
+      "Finding the right speaker for a high-stakes forum is not a glamorous job.",
+      "There are a lot of unanswered emails. Introductions that go nowhere. Conversations with people who are impressive on paper and immediately wrong for the room the moment you get on a call with them.",
+      "I know this because I have done it. Building thought leadership programs for audiences that are informed, selective, and professionally skeptical means the margin for a wrong choice is very small. You cannot fill a panel with interesting people and hope for the best. Interesting is not the same as right. And right is not the same as good on paper.",
+      "The brief sounds simple. Find people with something worth saying to an audience that has heard most things. Get them in front of that audience at the right moment in the right format.",
+      "What the brief does not capture is how much of that job is about resisting the easier version of itself.",
+      "The easier version is quantity.",
+      "More speakers. More sessions. More content coming out of the event. More posts, more roundup articles, more ways to show that something happened and it was substantial.",
+      "Quantity is not wrong. Reach matters. Volume matters. A thought leadership program that produces nothing is not a program.",
+      "But quantity without quality is noise with good branding. And noise, however well produced, does not change how a room of senior people thinks about a subject.",
+      "Quality is harder to defend in a meeting. You cannot put it in a metric. When someone asks why you chose this speaker over that one, the honest answer is often: because I read everything they have written and watched every talk they have given and I know they will say something this audience has not considered yet.",
+      "That answer requires conviction. It also requires having done the work.",
+      "The outreach part is where most programs quietly give up on quality without realising it.",
+      "You reach out to the obvious names first. They are busy or unresponsive or interested only in formats that do not serve the program. So you go to the next list. And then the next. And somewhere in that process, without a deliberate decision being made, the question shifts from who is right for this audience to who is available and willing.",
+      "Available and willing produces a program. It does not produce a moment.",
+      "The moments that stay with people came from speakers who took the most convincing to get there. Not because difficulty signals quality. But because the people who had something genuinely worth saying to that audience were usually already selective about where they showed up. They needed a reason to believe this room was worth their time.",
+      "Giving them that reason is itself a communications job. It requires knowing your audience well enough to articulate, specifically, why this conversation needs their perspective and what they will get from being in it. When you can do that, the outreach changes. It stops being a request and starts being an invitation to something worth attending.",
+      "The quality versus quantity tension never fully resolves.",
+      "I have sat in planning meetings where the pressure to fill a program is real, the timeline is short, and the right people are not responding. Those meetings require judgment calls that no framework makes easy.",
+      "But the programs that stay with people, the ones that generate conversations long after the event itself, are the ones where someone held the line on quality even when quantity was the easier argument to make.",
+      "That line is not always popular to hold.",
+      "<strong>It is always worth holding.</strong>"
+    ]
+  },
+  {
+    num:"04", color:"#1a4535", height:375, width:64,
+    spine:"Storytelling Is the Oldest Strategy There Is",
+    label:"Opinion 04",
+    title:"Storytelling Is the Oldest Strategy There Is",
+    sub:"On why the most powerful tool in corporate communication has been there all along",
+    preview:"Long before there were briefs, there were stories. Before strategy decks and stakeholder maps and content calendars, human beings were figuring out how to get other human beings to understand something.",
+    full:[
+      "Long before there were briefs, there were stories.",
+      "Before strategy decks and stakeholder maps and content calendars, human beings were figuring out how to get other human beings to understand something, to believe it, and eventually to act on it. And the way they did it, consistently, across every culture and every century, was through story.",
+      "That has not changed. Only the formats have.",
+      "The best internal communications I have read share one quality: they make you feel like someone is talking to you, about something that matters to you, in a way that was clearly written with you in mind. There is a difference between sending a message and actually talking to someone, and most corporate communication does the first while believing it is doing the second.",
+      "That quality of feeling spoken to rather than informed is what storytelling actually does inside an organisation. It closes the distance between the person sending the message and the person receiving it. And in large, complex organisations where that distance can be enormous, closing it is one of the most valuable things a communicator can do.",
+      "Think about the communications that have stayed with you from your working life.",
+      "Probably not the quarterly update. Probably not the policy document or the process change notification. Something else. A message from a leader that made you feel seen. A case study that made you understand why your work connected to something larger. A piece of writing that made the abstract suddenly feel real and close.",
+      "Those moments almost always have a story inside them. A person, a moment, a consequence that meant something to someone. The fact that it stays with you is not coincidence. It is the result of craft.",
+      "Storytelling in corporate communication is sometimes treated as a nice addition, something you layer on when the content allows for it, a tool for marketing perhaps or for culture-building but separate from the serious work of strategy and operations.",
+      "The organisations that get communication right tend to see it very differently.",
+      "They treat storytelling as foundational. As the mechanism by which complex ideas travel from a leadership team to the people who need to understand and act on them. As the reason a message lands rather than simply arrives and sits unread in an inbox.",
+      "Information informs. Stories move people. And in organisations where moving people, shifting understanding, building genuine alignment, is the actual work, that difference matters more than most communication strategies acknowledge.",
+      "The craft itself is demanding in ways that are easy to underestimate.",
+      "It requires finding the right moment inside a complex subject, knowing what to include and what to leave out, structuring information so the reader understands not just what is happening but why it matters to them personally, and writing with enough specificity that the story feels real without losing the clarity of the point.",
+      "These are skills. Learnable, practicable, genuinely improvable skills that belong at the centre of any serious communications function, not at the edges of it.",
+      "Stories have always been how humans make sense of change, how they process difficult information, how they decide what to trust and who to follow. Organisations going through change, which is every organisation at some point, need people who understand this deeply. Who can take the complicated true thing and find the human shape inside it.",
+      "That is what storytelling in corporate communication actually is. The oldest and most reliable way of helping people understand something that matters.",
+      "<strong>And it has always been there. We just keep rediscovering it.</strong>"
+    ]
+  }
+];
+
+var activeIdx = null;
+var shelf = document.getElementById('shelf');
+var slots = [], panelSlots = [];
+
+books.forEach(function(b, i) {
+  var slot = document.createElement('div');
+  slot.className = 'book-slot';
+  var bookEl = document.createElement('div');
+  bookEl.className = 'book';
+  bookEl.innerHTML =
+    '<div class="spine" style="background:' + b.color + ';width:' + b.width + 'px;height:' + b.height + 'px">' +
+      '<div class="spine-num">' + b.num + '</div>' +
+      '<div class="spine-title">' + b.spine + '</div>' +
+      '<div class="spine-dot"></div>' +
+    '</div>';
+
+  var panelSlot = document.createElement('div');
+  panelSlot.className = 'panel-slot';
+  var panel = document.createElement('div');
+  panel.className = 'panel';
+  panel.style.height = b.height + 'px';
+  panel.innerHTML =
+    '<div class="panel-label">' + b.label + '</div>' +
+    '<div class="panel-title">' + b.title + '</div>' +
+    '<div class="panel-sub">' + b.sub + '</div>' +
+    '<hr class="panel-rule">' +
+    '<div class="panel-body">' + b.preview + '</div>' +
+    '<div class="panel-footer">' +
+      '<span class="panel-author">Shilpi Kakani</span>' +
+      '<button class="read-btn" data-idx="' + i + '">Read &rarr;</button>' +
+    '</div>';
+  panelSlot.appendChild(panel);
+
+  bookEl.addEventListener('click', function() {
+    if (activeIdx === i) {
+      bookEl.classList.remove('active');
+      panelSlot.classList.remove('open');
+      activeIdx = null;
+      document.getElementById('hint').style.opacity = '1';
+    } else {
+      if (activeIdx !== null) {
+        slots[activeIdx].querySelector('.book').classList.remove('active');
+        panelSlots[activeIdx].classList.remove('open');
+      }
+      bookEl.classList.add('active');
+      panelSlot.classList.add('open');
+      activeIdx = i;
+      document.getElementById('hint').style.opacity = '0';
+    }
+  });
+
+  slot.appendChild(bookEl);
+  slot.appendChild(panelSlot);
+  shelf.appendChild(slot);
+  slots.push(slot);
+  panelSlots.push(panelSlot);
+});
+
+// READ button
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('read-btn')) {
+    var idx = parseInt(e.target.getAttribute('data-idx'));
+    openArticle(idx);
+  }
+});
+
+function openArticle(idx) {
+  var b = books[idx];
+  document.getElementById('art-eyebrow').textContent = b.label;
+  document.getElementById('art-title').textContent = b.title;
+  document.getElementById('art-sub').textContent = b.sub;
+  document.getElementById('art-text').innerHTML = b.full.map(function(p){ return '<p>' + p + '</p>'; }).join('');
+  document.getElementById('shelf-page').style.display = 'none';
+  document.getElementById('article-page').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+document.getElementById('art-back').addEventListener('click', function() {
+  document.getElementById('article-page').style.display = 'none';
+  document.getElementById('shelf-page').style.display = 'block';
+  window.scrollTo(0,0);
+});
+</script>
+</body>
+</html>

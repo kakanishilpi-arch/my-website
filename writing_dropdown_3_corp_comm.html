@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corporate Communications</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#e8e8e8;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.app{height:600px;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:#f5f5f5;position:relative;width:100%;max-width:960px;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.topbar{background:#1f1f1f;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-shrink:0}
+.ms-logo{width:16px;height:16px;display:grid;grid-template-columns:1fr 1fr;gap:2px;flex-shrink:0}
+.ms-logo span{display:block;border-radius:1px}
+.topbar-title{color:#fff;font-size:13px;font-weight:500;flex:1}
+.topbar-avatar{width:28px;height:28px;border-radius:50%;background:#0078d4;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0}
+.main{flex:1;display:flex;overflow:hidden}
+.sidebar{width:190px;background:#1f1f1f;flex-shrink:0;display:flex;flex-direction:column;padding-top:6px}
+.sidebar-item{display:flex;align-items:center;gap:9px;padding:8px 14px;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;transition:background .15s}
+.sidebar-item:hover{background:rgba(255,255,255,.08)}
+.sidebar-item.active{background:rgba(255,255,255,.13);color:#fff}
+.sidebar-icon{font-size:14px;flex-shrink:0;width:16px;text-align:center}
+.badge{margin-left:auto;background:#0078d4;color:#fff;font-size:10px;border-radius:10px;padding:1px 6px}
+.sidebar-divider{height:.5px;background:rgba(255,255,255,.1);margin:6px 10px}
+.sidebar-section{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;padding:8px 14px 2px}
+.list-panel{width:240px;background:#fff;border-right:.5px solid #e5e5e5;display:flex;flex-direction:column;flex-shrink:0}
+.list-head{padding:12px 14px 8px;border-bottom:.5px solid #efefef;display:flex;align-items:center;justify-content:space-between}
+.list-head-title{font-size:14px;font-weight:500;color:#1a1a1a}
+.search-wrap{padding:7px 10px;border-bottom:.5px solid #efefef}
+.search-wrap input{width:100%;background:#f5f5f5;border:none;border-radius:20px;padding:5px 11px;font-size:12px;color:#333;outline:none;font-family:inherit}
+.email-item{padding:11px 14px 11px 18px;border-bottom:.5px solid #f0f0f0;cursor:pointer;transition:background .15s;position:relative}
+.email-item:hover{background:#f8f8f8}
+.email-item.selected{background:#eef4fb}
+.email-item.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#0078d4}
+.unread-dot{width:6px;height:6px;border-radius:50%;background:#0078d4;position:absolute;left:6px;top:50%;transform:translateY(-50%)}
+.ei-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+.ei-sender{font-size:12.5px;color:#1a1a1a;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+.ei-time{font-size:10.5px;color:#aaa;flex-shrink:0}
+.ei-subject{font-size:11.5px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.ei-preview{font-size:11px;color:#bbb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reading-pane{flex:1;display:flex;flex-direction:column;background:#fff;overflow:hidden}
+.pane-toolbar{padding:9px 18px;border-bottom:.5px solid #efefef;display:flex;align-items:center;gap:2px;flex-shrink:0}
+.tb-btn{background:none;border:none;cursor:pointer;color:#555;padding:6px 8px;border-radius:4px;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+.tb-btn:hover{background:#f0f0f0;color:#111}
+.tb-sep{width:.5px;height:18px;background:#e0e0e0;margin:0 4px}
+.pane-body{flex:1;overflow-y:auto;padding:24px 28px}
+.empty-state{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ccc;gap:10px}
+.empty-state svg{opacity:.4}
+.empty-state p{font-size:13px}
+.email-subject-h{font-size:1.2rem;font-weight:500;color:#1a1a1a;margin-bottom:14px;line-height:1.35}
+.from-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+.from-detail{flex:1}
+.from-name{font-size:13px;font-weight:500;color:#1a1a1a}
+.from-addr{font-size:11px;color:#aaa}
+.e-date{font-size:11px;color:#aaa;white-space:nowrap}
+.to-line{font-size:11.5px;color:#999;padding-left:46px;margin-top:2px}
+.e-divider{border:none;border-top:.5px solid #efefef;margin:14px 0}
+.e-body{font-size:13.5px;color:#1a1a1a;line-height:1.85}
+.e-body p{margin-bottom:.9rem}
+.e-body h3{font-size:13.5px;font-weight:600;color:#1a1a1a;margin:1.3rem 0 .4rem}
+.e-body blockquote{border-left:3px solid #0078d4;padding:2px 0 2px 14px;color:#444;margin:.9rem 0;font-style:italic}
+.e-body .sig{color:#555;font-size:13px;margin-top:1.4rem;line-height:2}
+.e-body .disclaimer{font-size:11px;color:#bbb;border-top:.5px solid #efefef;padding-top:10px;margin-top:1.8rem;font-style:italic;line-height:1.7}
+.mobile-email-view{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#fff;flex-direction:column;z-index:50}
+.mobile-email-view.visible{display:flex}
+.mob-topbar{background:#1f1f1f;display:flex;align-items:center;gap:10px;padding:10px 14px;flex-shrink:0}
+.mob-back{color:#fff;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-size:13px}
+.mob-toolbar{display:flex;align-items:center;gap:2px;padding:8px 14px;border-bottom:.5px solid #efefef;flex-shrink:0;background:#fff}
+.mob-body{flex:1;overflow-y:auto;padding:20px 20px 32px}
+@media(max-width:600px){
+  body{padding:0;align-items:stretch}
+  .app{height:100vh;border-radius:0;max-width:100%}
+  .sidebar{display:none}
+  .list-panel{width:100%}
+  .reading-pane{display:none}
+}
+</style>
+</head>
+<body>
+  <!-- SHARED NAV -->
+  <style>
+    .sk-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.4rem 3rem; display: flex; align-items: center; justify-content: space-between; transition: background .3s; font-family: 'DM Sans', sans-serif; }
+    .sk-nav.scrolled { background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: .5px solid #e5e2dc; }
+    .sk-nav-logo { font-family: 'Fraunces', serif; font-weight: 300; font-size: 18px; color: #0c0c0c; text-decoration: none; letter-spacing: .02em; }
+    .sk-nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .sk-nav-links a, .sk-nav-btn { font-size: 12px; color: #777; text-decoration: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 0; display: flex; align-items: center; gap: 5px; }
+    .sk-nav-links a:hover, .sk-nav-btn:hover { color: #0c0c0c; }
+    .sk-nav-item { position: relative; }
+    .sk-nav-btn svg { transition: transform .2s; }
+    .sk-nav-item.open .sk-nav-btn svg { transform: rotate(180deg); }
+    .sk-dropdown { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(-6px); background: #fff; border: .5px solid #e5e2dc; box-shadow: 0 8px 32px rgba(0,0,0,.1); min-width: 210px; padding: .4rem 0; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+    .sk-nav-item.open .sk-dropdown { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+    .sk-dropdown a { display: block; padding: .65rem 1.4rem; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #777; text-decoration: none; transition: color .15s, background .15s; white-space: nowrap; }
+    .sk-dropdown a:hover { color: #0c0c0c; background: #f5f3ef; }
+    .sk-nav-spacer { height: 70px; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <nav class="sk-nav" id="skNav">
+    <a href="index.html" class="sk-nav-logo">Shilpi Kakani</a>
+    <ul class="sk-nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li class="sk-nav-item">
+        <button class="sk-nav-btn">Writing <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></button>
+        <div class="sk-dropdown">
+          <a href="writing_dropdown_1_opinion_pieces.html">Opinion Pieces</a>
+          <a href="writing_dropdown_2_press_release.html">Press Release</a>
+          <a href="writing_dropdown_3_corp_comm.html">Corporate Communications</a>
+        </div>
+      </li>
+      <li class="sk-nav-item">
+        <button class="sk-nav-btn">Work <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></button>
+        <div class="sk-dropdown">
+          <a href="work_dropdown_1_case_study.html">Case Study</a>
+        </div>
+      </li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="sk-nav-spacer"></div>
+  <script>
+    window.addEventListener("scroll", () => { document.getElementById("skNav").classList.toggle("scrolled", scrollY > 80); });
+    document.querySelectorAll(".sk-nav-item").forEach(function(item) {
+      var btn = item.querySelector(".sk-nav-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function(e) { e.stopPropagation(); var isOpen = item.classList.contains("open"); document.querySelectorAll(".sk-nav-item.open").forEach(function(i){ i.classList.remove("open"); }); if (!isOpen) item.classList.add("open"); });
+    });
+    document.addEventListener("click", function() { document.querySelectorAll(".sk-nav-item.open").forEach(function(i){ i.classList.remove("open"); }); });
+  </script>
+
+<div class="app">
+  <div class="topbar">
+    <div class="ms-logo">
+      <span style="background:#f25022"></span><span style="background:#7fba00"></span>
+      <span style="background:#00a4ef"></span><span style="background:#ffb900"></span>
+    </div>
+    <span class="topbar-title">Outlook</span>
+    <div class="topbar-avatar">SK</div>
+  </div>
+
+  <div class="main">
+    <div class="sidebar">
+      <div class="sidebar-item active">
+        <span class="sidebar-icon">&#9993;</span> Inbox <span class="badge">2</span>
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-icon">&#10148;</span> Sent
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-icon">&#9998;</span> Drafts
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-icon">&#128450;</span> Archive
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">Folders</div>
+      <div class="sidebar-item">
+        <span class="sidebar-icon">&#128193;</span> Corporate Communications
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-icon">&#9733;</span> Flagged
+      </div>
+    </div>
+
+    <div class="list-panel">
+      <div class="list-head">
+        <span class="list-head-title">Corporate Communications</span>
+      </div>
+      <div class="search-wrap"><input placeholder="Search mail" /></div>
+      <div class="email-item unread" id="item-0">
+        <div class="unread-dot"></div>
+        <div class="ei-row"><span class="ei-sender">Arun Mehta &amp; Priya Shankar</span><span class="ei-time">11 May</span></div>
+        <div class="ei-subject">Arya Technologies Is Joining Vantage Group</div>
+        <div class="ei-preview">The agreement was finalised today...</div>
+      </div>
+      <div class="email-item" id="item-1">
+        <div class="ei-row"><span class="ei-sender">Arun Mehta, Chief Executive Officer</span><span class="ei-time">3 Apr</span></div>
+        <div class="ei-subject">To Our Shareholders, Partners, and People</div>
+        <div class="ei-preview">Three years ago we made a decision...</div>
+      </div>
+    </div>
+
+    <div class="reading-pane" id="reading-pane">
+      <div class="pane-toolbar">
+        <button class="tb-btn" id="desk-back" title="Back">&#8592;</button>
+        <button class="tb-btn" title="Forward">&#8594;</button>
+        <div class="tb-sep"></div>
+        <button class="tb-btn" title="Archive">&#128450;</button>
+        <button class="tb-btn" title="Delete">&#128465;</button>
+        <button class="tb-btn" title="Flag">&#9873;</button>
+        <div class="tb-sep"></div>
+        <button class="tb-btn" title="More">&#8943;</button>
+      </div>
+      <div class="pane-body" id="pane-body">
+        <div class="empty-state">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          <p>Select an email to read</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-email-view" id="mob-view">
+    <div class="mob-topbar">
+      <button class="mob-back" id="mob-back">&#8592; Inbox</button>
+    </div>
+    <div class="mob-toolbar">
+      <button class="tb-btn">&#8592;</button>
+      <button class="tb-btn">&#8594;</button>
+      <div class="tb-sep"></div>
+      <button class="tb-btn">&#128450;</button>
+      <button class="tb-btn">&#128465;</button>
+      <button class="tb-btn">&#9873;</button>
+    </div>
+    <div class="mob-body" id="mob-body"></div>
+  </div>
+</div>
+
+<script>
+var disclaimer = '<p class="disclaimer">Portfolio Sample. The names, organisations, and scenarios in this document are fictional and included for demonstration purposes only. This sample does not represent any real entity, transaction, or event.</p>';
+
+var emails = [
+  {
+    subject: "Arya Technologies Is Joining Vantage Group",
+    from: "Arun Mehta &amp; Priya Shankar",
+    fromEmail: "arun.mehta@arya.com; priya.shankar@vantagegroup.com",
+    to: "All Arya Technologies employees",
+    date: "Monday, 11 May 2026, 9:00 AM",
+    avatarBg: "#0078d4",
+    initials: "AM",
+    body: '<p style="color:#aaa;font-size:11.5px;font-style:italic">Internal Communication — Confidential</p><p>Arya Technologies is joining Vantage Group.</p><p>The agreement was finalised today and will close pending regulatory clearance over the next 60 to 90 days.</p><h3>Why this makes sense.</h3><p>Arya built something that works: the privacy-first architecture, the client relationships, and the way this team makes decisions. Vantage brings the global distribution and market infrastructure to take that further and faster than Arya could independently.</p><p>This is not a rescue. It is not a pivot. It is two organisations that looked at each other carefully and decided the next chapter is better written together.</p><h3>What changes and what does not.</h3><p>In the immediate term, nothing changes. Your role, your team, your reporting lines remain as they are. Integration will be phased and structured. Nobody is being asked to become a different kind of company overnight.</p><p>Over the coming weeks your managers will share specifics relevant to your teams. There will be town halls and structured sessions for questions. Where we do not have answers yet we will say so directly rather than fill the space with reassurance that does not mean anything. Questions in the meantime go to <span style="color:#0078d4">integration@arya-vantage.com</span>.</p><h3>One thing from each of us.</h3><blockquote>Arun: The reason I wanted Vantage as a partner is the same reason I built Arya the way I did. Deliberate decisions, held under pressure. That does not change.</blockquote><blockquote>Priya: We chose Arya because of what this team built and how they built it. Protecting that is the whole point.</blockquote><div class="sig"><strong>Arun Mehta</strong><br>Chief Executive Officer, Arya Technologies<br><br><strong>Priya Shankar</strong><br>Chief Executive Officer, Vantage Group</div>'
+  },
+  {
+    subject: "To Our Shareholders, Partners, and People",
+    from: "Arun Mehta",
+    fromEmail: "arun.mehta@arya.com",
+    to: "Shareholders, Partners and Employees — Annual Report 2025",
+    date: "Thursday, 3 April 2025, 8:30 AM",
+    avatarBg: "#107c41",
+    initials: "AM",
+    body: '<p style="color:#aaa;font-size:11.5px;font-style:italic">Annual Report 2025</p><p>Three years ago we made a decision that most people in this industry thought was premature.</p><p>We chose to build our infrastructure around privacy-first architecture before regulation required it and before the market rewarded it. Our investors asked questions. Our competitors did not follow. We held the position.</p><p>This past year, that decision became our clearest differentiator. As data regulation tightened across the markets we operate in, and as enterprise clients began asking harder questions about where their information lives, Arya was already where they needed us to be. We did not scramble to comply. We led the conversation.</p><p>Revenue grew 64 percent year on year. But the number I keep returning to is churn, which held below four percent in a year when the broader market was losing clients at twice that rate. When clients stay, it means the product is working and the relationship is real. Everything else follows from that.</p><p>Our enterprise client base expanded from 180 to 312 organisations across India, Southeast Asia, and the Middle East. Headcount grew by 40 percent. And 68 percent of our senior roles this year were filled by people who were already inside the company. That last number matters to me more than most people expect it to. It means the culture is producing leaders, not just hiring them.</p><p>There were things we did not get right.</p><p>Our onboarding experience for mid-market clients fell short of the standard we set for ourselves. The feedback was consistent and we were slow to act on it. We have since restructured the client success function around that specific failure point and the Q4 satisfaction scores reflect the change. But I want to name it plainly rather than fold it into a paragraph about our commitment to improvement.</p><p>We are still working on it. That is the most honest thing I can say.</p><p>In 2026 we will enter two new geographies, launch a self-serve tier for smaller organisations, and complete the development of our real-time compliance monitoring product, currently in closed beta with fourteen clients.</p><p>None of that is possible without the people who built everything you are reading about in this report. I want to protect that above everything else as we grow: the quality of the thinking and the seriousness with which people here approach the work. That is what we are actually building.</p><p><strong>The work continues.</strong></p><div class="sig"><strong>Arun Mehta</strong><br>Chief Executive Officer, Arya Technologies</div>'
+  }
+];
+
+function buildHTML(e) {
+  return '<div class="email-subject-h">' + e.subject + '</div>' +
+    '<div class="from-row">' +
+      '<div class="av" style="background:' + e.avatarBg + '">' + e.initials + '</div>' +
+      '<div class="from-detail"><div class="from-name">' + e.from + '</div><div class="from-addr">' + e.fromEmail + '</div></div>' +
+      '<div class="e-date">' + e.date + '</div>' +
+    '</div>' +
+    '<div class="to-line">To: ' + e.to + '</div>' +
+    '<hr class="e-divider">' +
+    '<div class="e-body">' + e.body + disclaimer + '</div>';
+}
+
+function isMobile() { return window.innerWidth <= 600; }
+
+function selectEmail(idx) {
+  document.querySelectorAll('.email-item').forEach(function(el){ el.classList.remove('selected'); });
+  var item = document.getElementById('item-' + idx);
+  item.classList.add('selected');
+  item.classList.remove('unread');
+  var dot = item.querySelector('.unread-dot');
+  if (dot) dot.remove();
+  var html = buildHTML(emails[idx]);
+  if (isMobile()) {
+    document.getElementById('mob-body').innerHTML = html;
+    document.getElementById('mob-view').classList.add('visible');
+  } else {
+    document.getElementById('pane-body').innerHTML = html;
+    document.querySelector('.list-panel').style.display = 'none';
+    document.getElementById('reading-pane').style.flex = '1';
+  }
+}
+
+document.getElementById('item-0').addEventListener('click', function(){ selectEmail(0); });
+document.getElementById('item-1').addEventListener('click', function(){ selectEmail(1); });
+document.getElementById('mob-back').addEventListener('click', function(){
+  document.getElementById('mob-view').classList.remove('visible');
+});
+document.getElementById('desk-back').addEventListener('click', function(){
+  document.querySelector('.list-panel').style.display = 'flex';
+  document.querySelectorAll('.email-item').forEach(function(el){ el.classList.remove('selected'); });
+  document.getElementById('pane-body').innerHTML = '<div class="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><p>Select an email to read</p></div>';
+});
+</script>
+</body>
+</html>
